@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
@@ -22,9 +22,9 @@ public class Restaurant extends BaseEntity {
     private String dishes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("voteTime DESC")
+    @OrderBy("voteDate DESC")
     @JsonManagedReference
-    @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
-    private List<User> votes;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Vote> votes;
 
 }

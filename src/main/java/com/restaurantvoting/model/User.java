@@ -1,13 +1,17 @@
 package com.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,7 +21,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -35,13 +39,10 @@ public class User extends BaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @Column(name = "vote_time")
-    @DateTimeFormat
-    private Date voteTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    @JsonBackReference
-    private Restaurant restaurant;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy("voteDate DESC")
+    @JsonManagedReference
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Vote> votes;
 
 }
