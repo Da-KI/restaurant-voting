@@ -1,6 +1,8 @@
 package com.restaurantvoting.web.user;
 
 import com.restaurantvoting.model.User;
+import com.restaurantvoting.to.UserTo;
+import com.restaurantvoting.util.UserUtil;
 import com.restaurantvoting.web.AuthUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,10 +38,10 @@ public class AccountController extends AbstractUserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> register(@Valid @RequestBody User user) {
-        log.info("register {}", user);
-        checkNew(user);
-        User created = prepareAndSave(user);
+    public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
+        log.info("register {}", userTo);
+        checkNew(userTo);
+        User created = prepareAndSave(UserUtil.createNewFromTo(userTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
@@ -48,8 +50,9 @@ public class AccountController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void update(@RequestBody @Valid User user, @AuthenticationPrincipal AuthUser authUser) {
-        assureIdConsistent(user, authUser.id());
-        prepareAndSave(authUser.getUser());
+    public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
+        assureIdConsistent(userTo, authUser.id());
+        User user = authUser.getUser();
+        prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
 }
