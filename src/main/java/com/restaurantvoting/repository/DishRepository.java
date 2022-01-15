@@ -11,10 +11,9 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Tag(name = "Dish Controller")
 public interface DishRepository extends BaseRepository<Dish> {
-
     @Query("SELECT d FROM Dish d WHERE d.restaurant.id = :restaurantId")
-    List<Dish> findAllByRestaurantId (int restaurantId);
+    List<Dish> findAllByRestaurantId(int restaurantId);
 
-//    @Query("SELECT d FROM Dish d WHERE d.restaurant.id = :restaurantId AND d.createDate = :")
     List<Dish> findAllByRestaurantIdAndCreateDateAfter(int restaurantId, LocalDateTime dateTime);
+
 }

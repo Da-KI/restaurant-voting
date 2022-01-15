@@ -1,8 +1,6 @@
 package com.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.restaurantvoting.HasId;
 import com.restaurantvoting.HasIdAndEmail;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -27,7 +25,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"password"})
 public class User extends NamedEntity implements Serializable, HasIdAndEmail {
-
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotEmpty
@@ -54,12 +51,6 @@ public class User extends NamedEntity implements Serializable, HasIdAndEmail {
     @JoinColumn(name = "user_id") //https://stackoverflow.com/a/62848296/548473
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    @OrderBy("voteDate DESC")
-//    @JsonManagedReference
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private Set<Vote> votes;
 
     public User(User u) {
         this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);

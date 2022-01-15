@@ -7,7 +7,6 @@ import org.springframework.data.util.ProxyUtils;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @MappedSuperclass
 //  https://stackoverflow.com/a/6084701/548473

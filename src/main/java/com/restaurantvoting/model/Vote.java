@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString(callSuper = true)
 public class Vote extends BaseEntity {
-
     @Column(name = "date_time", nullable = false)
     @NotNull
     private LocalDateTime dateTime;

@@ -1,9 +1,9 @@
 package com.restaurantvoting.to;
 
-import lombok.EqualsAndHashCode;
-import lombok.Value;
 import com.restaurantvoting.HasIdAndEmail;
 import com.restaurantvoting.util.validation.NoHtml;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

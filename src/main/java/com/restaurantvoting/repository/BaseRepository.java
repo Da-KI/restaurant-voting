@@ -11,7 +11,6 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkModificat
 // https://stackoverflow.com/questions/42781264/multiple-base-repositories-in-spring-data-jpa
 @NoRepositoryBean
 public interface BaseRepository<T> extends JpaRepository<T, Integer> {
-
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query.spel-expressions
     @Transactional
     @Modifying

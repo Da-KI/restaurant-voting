@@ -1,7 +1,6 @@
 package com.restaurantvoting.web.dish;
 
 import com.restaurantvoting.model.Dish;
-import com.restaurantvoting.model.Restaurant;
 import com.restaurantvoting.repository.DishRepository;
 import com.restaurantvoting.repository.RestaurantRepository;
 import com.restaurantvoting.to.DishTo;
@@ -32,16 +31,15 @@ public class AdminDishController {
     private final RestaurantRepository restaurantRepository;
 
     @GetMapping("/dishes")
-    public List<Dish> getAll () {
+    public List<Dish> getAll() {
         log.info("get all");
         return repository.findAll();
     }
 
     @Transactional
     @GetMapping("/{id}/dishes")
-    public List<Dish> getDishes (@PathVariable int id) {
+    public List<Dish> getDishes(@PathVariable int id) {
         log.info("get dishes for restaurant {}", id);
-        System.out.println(repository.findAllByRestaurantId(id));
         return repository.findAllByRestaurantId(id);
     }
 
@@ -71,6 +69,5 @@ public class AdminDishController {
         assureIdConsistent(dish, id);
         repository.save(dish);
     }
-
 
 }

@@ -1,11 +1,11 @@
 package com.restaurantvoting.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantvoting.web.AuthUser;
 import com.restaurantvoting.model.Role;
 import com.restaurantvoting.model.User;
 import com.restaurantvoting.repository.UserRepository;
 import com.restaurantvoting.util.JsonUtil;
+import com.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

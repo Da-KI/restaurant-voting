@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 @Slf4j
 public abstract class AbstractUserController {
-
     @Autowired
     protected UserRepository repository;
 
@@ -37,4 +36,5 @@ public abstract class AbstractUserController {
     protected User prepareAndSave(User user) {
         return repository.save(UserUtil.prepareToSave(user));
     }
+
 }

@@ -1,14 +1,13 @@
 package com.restaurantvoting.web;
 
+import com.restaurantvoting.model.User;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
-import com.restaurantvoting.model.User;
 
 @Getter
 @ToString(of = "user")
 public class AuthUser extends org.springframework.security.core.userdetails.User {
-
     private final User user;
 
     public AuthUser(@NonNull User user) {
@@ -19,4 +18,5 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
     public int id() {
         return user.id();
     }
+
 }

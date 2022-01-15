@@ -4,7 +4,6 @@ import com.restaurantvoting.model.Dish;
 import com.restaurantvoting.repository.DishRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +25,15 @@ public class DishController {
 
     @Transactional
     @GetMapping("/{id}/dishes")
-    public List<Dish> getAll (@PathVariable int id) {
+    public List<Dish> getAll(@PathVariable int id) {
         log.info("get dishes for restaurant {}", id);
         return repository.findAllByRestaurantId(id);
     }
 
     @GetMapping("/{id}/today-dishes/")
-    public List<Dish> getToday (@PathVariable int id) {
+    public List<Dish> getToday(@PathVariable int id) {
         log.info("get dishes for restaurant {}", id);
         return repository.findAllByRestaurantIdAndCreateDateAfter(id, LocalDateTime.now().toLocalDate().atStartOfDay());
     }
+
 }

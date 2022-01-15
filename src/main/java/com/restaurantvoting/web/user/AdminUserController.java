@@ -1,5 +1,6 @@
 package com.restaurantvoting.web.user;
 
+import com.restaurantvoting.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.restaurantvoting.model.User;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -21,7 +21,6 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class AdminUserController extends AbstractUserController {
-
     static final String REST_URL = "/api/admin/users/";
 
     @Override
@@ -76,4 +75,5 @@ public class AdminUserController extends AbstractUserController {
         User user = repository.getById(id);
         user.setEnabled(enabled);
     }
+
 }

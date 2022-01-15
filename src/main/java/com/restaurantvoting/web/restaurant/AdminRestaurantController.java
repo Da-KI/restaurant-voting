@@ -23,7 +23,6 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 @Slf4j
 @AllArgsConstructor
 @Transactional
-//@Tag(name = "Admin Restaurants Controller")
 public class AdminRestaurantController {
 
     static final String REST_URL = "/api/admin/restaurants/";
@@ -33,7 +32,6 @@ public class AdminRestaurantController {
     @GetMapping
     public List<Restaurant> getAll() {
         log.info("getAll");
-        System.out.println(repository.findAll());
         return repository.findAll();
     }
 

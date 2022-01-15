@@ -34,7 +34,7 @@ public class VoteController {
         log.info("user {} voted {}", authUser.id(), id);
         Optional<Vote> optionalVote = repository.findByDateTimeAfterAndUserId(
                 LocalDateTime.now().toLocalDate().atStartOfDay(), authUser.id());
-        Vote vote = new Vote (LocalDateTime.now(), restaurantRepository.getById(id), authUser.getUser());
+        Vote vote = new Vote(LocalDateTime.now(), restaurantRepository.getById(id), authUser.getUser());
         if (optionalVote.isPresent()) {
             checkRevote(vote);
             repository.delete(optionalVote.get());

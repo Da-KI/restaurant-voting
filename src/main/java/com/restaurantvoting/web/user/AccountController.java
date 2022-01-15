@@ -55,4 +55,5 @@ public class AccountController extends AbstractUserController {
         User user = authUser.getUser();
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
+
 }
