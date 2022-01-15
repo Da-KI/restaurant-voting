@@ -17,3 +17,14 @@ Build a voting system for deciding where to have lunch.
 Each restaurant provides a new menu each day.
 
 As a result, provide a link to github repository. It should contain the code, README.md with API documentation and couple curl commands to test it (better - link to Swagger).
+
+Github:
+https://github.com/Da-KI/restaurant-voting
+
+Swagger:
+http://localhost:8080/swagger-ui/index.html
+
+Test credentials:
+user@gmail.com / password
+admin@joo.md / admin
+name@ya.ru / third
