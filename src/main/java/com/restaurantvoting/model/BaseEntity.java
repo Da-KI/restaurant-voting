@@ -7,6 +7,7 @@ import org.springframework.data.util.ProxyUtils;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @MappedSuperclass
 //  https://stackoverflow.com/a/6084701/548473
@@ -21,9 +22,6 @@ public abstract class BaseEntity implements Persistable<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
-
-//    @Column(name = "name", nullable = false, unique = true)
-    protected String name;
 
     // doesn't work for hibernate lazy proxy
     public int id() {

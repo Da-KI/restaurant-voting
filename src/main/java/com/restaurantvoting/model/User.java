@@ -1,18 +1,23 @@
 package com.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.restaurantvoting.HasId;
+import com.restaurantvoting.HasIdAndEmail;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -21,7 +26,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends BaseEntity implements Serializable {
+public class User extends NamedEntity implements Serializable, HasIdAndEmail {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -31,7 +36,16 @@ public class User extends BaseEntity implements Serializable {
 
     @Column(name = "password")
     @Size(max = 256)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Date registered = new Date();
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique")})
@@ -39,10 +53,31 @@ public class User extends BaseEntity implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("voteDate DESC")
-    @JsonManagedReference
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Vote> votes;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    @OrderBy("voteDate DESC")
+//    @JsonManagedReference
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private Set<Vote> votes;
+
+    public User(User u) {
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
+    }
+
+    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
+        this(id, name, email, password, true, new Date(), EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
+        super(id, name);
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+        this.registered = registered;
+        setRoles(roles);
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
 
 }

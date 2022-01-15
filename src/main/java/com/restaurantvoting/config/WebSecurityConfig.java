@@ -1,5 +1,11 @@
 package com.restaurantvoting.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.restaurantvoting.web.AuthUser;
+import com.restaurantvoting.model.Role;
+import com.restaurantvoting.model.User;
+import com.restaurantvoting.repository.UserRepository;
+import com.restaurantvoting.util.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +19,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import com.restaurantvoting.AuthUser;
-import com.restaurantvoting.model.Role;
-import com.restaurantvoting.model.User;
-import com.restaurantvoting.repository.UserRepository;
 
 import java.util.Optional;
+
+import static com.restaurantvoting.util.UserUtil.PASSWORD_ENCODER;
 
 @Configuration
 @EnableWebSecurity
@@ -28,11 +30,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     private final UserRepository userRepository;
 
+    @Autowired
+    private void setMapper(ObjectMapper objectMapper) {
+        JsonUtil.setMapper(objectMapper);
+    }
+
     @Bean
-    public UserDetailsService userDetailsService() {
+    @Override
+    // https://stackoverflow.com/a/70176629/548473
+    public UserDetailsService userDetailsServiceBean() throws Exception {
+        return super.userDetailsServiceBean();
+    }
+
+    @Override
+    protected UserDetailsService userDetailsService() {
         return email -> {
             log.debug("Authenticating '{}'", email);
             Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);

@@ -1,4 +1,4 @@
-package com.restaurantvoting;
+package com.restaurantvoting.web;
 
 import lombok.Getter;
 import lombok.ToString;
