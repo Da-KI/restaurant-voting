@@ -2,6 +2,7 @@ package com.restaurantvoting.web.restaurant;
 
 import com.restaurantvoting.model.Restaurant;
 import com.restaurantvoting.repository.RestaurantRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 @Slf4j
 @AllArgsConstructor
 @Transactional
+@Tag(name = "Admin Restaurant Controller")
 public class AdminRestaurantController {
 
     static final String REST_URL = "/api/admin/restaurants/";

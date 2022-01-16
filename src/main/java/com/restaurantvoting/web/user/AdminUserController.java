@@ -1,6 +1,7 @@
 package com.restaurantvoting.web.user;
 
 import com.restaurantvoting.model.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -24,6 +25,7 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = "users")
+@Tag(name = "Admin User Controller")
 public class AdminUserController extends AbstractUserController {
     static final String REST_URL = "/api/admin/users/";
 

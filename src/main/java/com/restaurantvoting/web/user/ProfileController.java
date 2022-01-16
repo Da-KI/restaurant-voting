@@ -4,6 +4,7 @@ import com.restaurantvoting.model.User;
 import com.restaurantvoting.to.UserTo;
 import com.restaurantvoting.util.UserUtil;
 import com.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,9 +21,10 @@ import static com.restaurantvoting.util.validation.ValidationUtil.assureIdConsis
 import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = AccountController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-public class AccountController extends AbstractUserController {
+@Tag(name = "Profile Controller")
+public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile/";
 
     @GetMapping

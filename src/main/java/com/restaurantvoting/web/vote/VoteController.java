@@ -4,6 +4,7 @@ import com.restaurantvoting.model.Vote;
 import com.restaurantvoting.repository.RestaurantRepository;
 import com.restaurantvoting.repository.VoteRepository;
 import com.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,7 @@ import static com.restaurantvoting.util.validation.ValidationUtil.*;
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
+@Tag(name = "Vote Controller")
 public class VoteController {
     static final String REST_URL = "/api/restaurants/";
 

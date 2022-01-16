@@ -2,6 +2,7 @@ package com.restaurantvoting.web.dish;
 
 import com.restaurantvoting.model.Dish;
 import com.restaurantvoting.repository.DishRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
+@Tag(name = "Dish Controller")
 public class DishController {
     static final String REST_URL = "/api/restaurants/";
 
