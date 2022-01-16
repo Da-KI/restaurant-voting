@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @UtilityClass
@@ -36,6 +37,12 @@ public class ValidationUtil {
     public static void checkRevote(Vote vote) {
         if (vote.getTime().isAfter(LocalTime.of(11, 0))) {
             throw new IllegalRequestDataException("Change vote after 11:00 is not allowed");
+        }
+    }
+
+    public static void checkToday(Vote vote) {
+        if (vote.getDate().isBefore(LocalDate.now())) {
+            throw new IllegalRequestDataException("Change archive vote is not allowed");
         }
     }
 

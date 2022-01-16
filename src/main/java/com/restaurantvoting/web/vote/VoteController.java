@@ -17,8 +17,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
-import static com.restaurantvoting.util.validation.ValidationUtil.checkRevote;
+import static com.restaurantvoting.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,8 +50,10 @@ public class VoteController {
 
     @PutMapping(value = "/vote/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void update(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody Vote vote, @PathVariable int id) {
+    public void update(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody Vote vote, @PathVariable int id) {
         log.info("user {} update its vote {}", authUser.id(), id);
+        repository.checkBelong(id, authUser.id());
+        checkToday(vote);
         checkRevote(vote);
         assureIdConsistent(vote, id);
         repository.save(vote);
