@@ -6,15 +6,18 @@ import com.restaurantvoting.repository.VoteRepository;
 import com.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static com.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.restaurantvoting.util.validation.ValidationUtil.checkRevote;
 
 @RestController
@@ -28,18 +31,30 @@ public class VoteController {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    @PostMapping(value = "/vote/{id}")
+    @PostMapping(value = "/vote/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void vote(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
-        log.info("user {} voted {}", authUser.id(), id);
-        Optional<Vote> optionalVote = repository.findByDateTimeAfterAndUserId(
-                LocalDateTime.now().toLocalDate().atStartOfDay(), authUser.id());
-        Vote vote = new Vote(LocalDateTime.now(), restaurantRepository.getById(id), authUser.getUser());
+    public void create(@AuthenticationPrincipal AuthUser authUser, @Param("restaurant_id") int restaurant_id) {
+        log.info("user {} voted restaurant {}", authUser.id(), restaurant_id);
+        Optional<Vote> optionalVote = repository.findByDateAndUserId(
+                LocalDateTime.now().toLocalDate(), authUser.id());
+        Vote vote = new Vote(LocalDateTime.now().toLocalDate(),
+                LocalDateTime.now().toLocalTime(),
+                restaurantRepository.getById(restaurant_id),
+                authUser.getUser());
         if (optionalVote.isPresent()) {
-            checkRevote(vote);
-            repository.delete(optionalVote.get());
+            update(authUser, vote, optionalVote.get().getId());
+        } else {
+            repository.save(vote);
         }
-        repository.save(vote);
+
     }
 
+    @PutMapping(value = "/vote/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    private void update(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody Vote vote, @PathVariable int id) {
+        log.info("user {} update its vote {}", authUser.id(), id);
+        checkRevote(vote);
+        assureIdConsistent(vote, id);
+        repository.save(vote);
+    }
 }
