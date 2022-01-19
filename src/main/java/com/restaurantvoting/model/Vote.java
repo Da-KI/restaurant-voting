@@ -1,6 +1,5 @@
 package com.restaurantvoting.model;
 
-import com.restaurantvoting.HasId;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +14,7 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class Vote extends BaseEntity implements HasId {
+public class Vote extends BaseEntity {
     @Column(name = "date", nullable = false)
     @NotNull
     private LocalDate date;
@@ -31,5 +30,4 @@ public class Vote extends BaseEntity implements HasId {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
 }

@@ -1,7 +1,6 @@
 package com.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.restaurantvoting.HasId;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
@@ -10,13 +9,13 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "dishes")
+@Table(name = "menu_item")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class Dish extends NamedEntity implements HasId {
+public class MenuItem extends NamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -27,11 +26,11 @@ public class Dish extends NamedEntity implements HasId {
     @NotNull
     private LocalDateTime createDate;
 
-    @Column(name = "price")
-    @Range(min = 1, max = 500)
+    @Column(name = "price", nullable = false)
+    @NotNull
     private int price;
 
-    public Dish(Integer id, String name, Restaurant restaurant, LocalDateTime createDate, int price) {
+    public MenuItem(Integer id, String name, Restaurant restaurant, LocalDateTime createDate, int price) {
         super(id, name);
         this.restaurant = restaurant;
         this.createDate = createDate;

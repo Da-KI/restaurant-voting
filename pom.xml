@@ -12,7 +12,7 @@
     <artifactId>restaurant-voting</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>restaurant-voting</name>
+    <name>Restaurant voting</name>
     <description>A voting system for deciding where to have lunch</description>
     <url>https://github.com/Da-KI/restaurant-voting</url>
     <properties>
@@ -82,7 +82,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
 <!--            https://stackoverflow.com/questions/66801256/java-lang-illegalaccesserror-class-lombok-javac-apt-lombokprocessor-cannot-acce-->
-                       <version>1.18.22</version>
+            <version>1.18.22</version>
             <optional>true</optional>
         </dependency>
         <dependency>

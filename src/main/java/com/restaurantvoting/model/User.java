@@ -8,10 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -31,7 +28,8 @@ public class User extends NamedEntity implements Serializable, HasIdAndEmail {
     @Size(max = 128)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
+    @NotBlank
     @Size(max = 256)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

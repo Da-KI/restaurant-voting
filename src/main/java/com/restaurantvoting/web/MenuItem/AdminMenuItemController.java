@@ -1,9 +1,9 @@
-package com.restaurantvoting.web.dish;
+package com.restaurantvoting.web.MenuItem;
 
-import com.restaurantvoting.model.Dish;
-import com.restaurantvoting.repository.DishRepository;
+import com.restaurantvoting.model.MenuItem;
+import com.restaurantvoting.repository.MenuItemRepository;
 import com.restaurantvoting.repository.RestaurantRepository;
-import com.restaurantvoting.to.DishTo;
+import com.restaurantvoting.to.MenuItemTo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,25 +22,25 @@ import static com.restaurantvoting.util.validation.ValidationUtil.assureIdConsis
 import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminMenuItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-@Tag(name = "Admin Dish Controller")
-public class AdminDishController {
+@Tag(name = "Admin MenuItem Controller")
+public class AdminMenuItemController {
     static final String REST_URL = "/api/admin/restaurants/";
 
-    private final DishRepository repository;
+    private final MenuItemRepository repository;
     private final RestaurantRepository restaurantRepository;
 
     @GetMapping("/dishes")
-    public List<Dish> getAll() {
+    public List<MenuItem> getAll() {
         log.info("get all");
         return repository.findAll();
     }
 
     @Transactional
     @GetMapping("/{id}/dishes")
-    public List<Dish> getDishes(@PathVariable int id) {
+    public List<MenuItem> getDishes(@PathVariable int id) {
         log.info("get dishes for restaurant {}", id);
         return repository.findAllByRestaurantId(id);
     }
@@ -53,23 +53,23 @@ public class AdminDishController {
     }
 
     @PostMapping(value = "{id}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@Valid @RequestBody DishTo dishTo, @PathVariable int id) {
-        log.info("create {}", dishTo);
-        checkNew(dishTo);
-        Dish newDish = new Dish(dishTo.getId(), dishTo.getName(), restaurantRepository.getById(id), dishTo.getCreateDate(), dishTo.getPrice());
-        repository.save(newDish);
+    public ResponseEntity<MenuItem> create(@Valid @RequestBody MenuItemTo menuItemTo, @PathVariable int id) {
+        log.info("create {}", menuItemTo);
+        checkNew(menuItemTo);
+        MenuItem newMenuItem = new MenuItem(menuItemTo.getId(), menuItemTo.getName(), restaurantRepository.getById(id), menuItemTo.getCreateDate(), menuItemTo.getPrice());
+        repository.save(newMenuItem);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(newDish.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(newDish);
+                .buildAndExpand(newMenuItem.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(newMenuItem);
     }
 
     @PutMapping(value = "/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Dish dish, @PathVariable int id) {
-        log.info("update {} with id={}", dish, id);
-        assureIdConsistent(dish, id);
-        repository.save(dish);
+    public void update(@Valid @RequestBody MenuItem menuItem, @PathVariable int id) {
+        log.info("update {} with id={}", menuItem, id);
+        assureIdConsistent(menuItem, id);
+        repository.save(menuItem);
     }
 
 }

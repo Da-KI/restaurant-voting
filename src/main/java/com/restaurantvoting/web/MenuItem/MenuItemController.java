@@ -1,7 +1,7 @@
-package com.restaurantvoting.web.dish;
+package com.restaurantvoting.web.MenuItem;
 
-import com.restaurantvoting.model.Dish;
-import com.restaurantvoting.repository.DishRepository;
+import com.restaurantvoting.model.MenuItem;
+import com.restaurantvoting.repository.MenuItemRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,24 +16,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = MenuItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-@Tag(name = "Dish Controller")
-public class DishController {
+@Tag(name = "MenuItem Controller")
+public class MenuItemController {
     static final String REST_URL = "/api/restaurants/";
 
-    private final DishRepository repository;
+    private final MenuItemRepository repository;
 
     @Transactional
     @GetMapping("/{id}/dishes")
-    public List<Dish> getAll(@PathVariable int id) {
+    public List<MenuItem> getAll(@PathVariable int id) {
         log.info("get dishes for restaurant {}", id);
         return repository.findAllByRestaurantId(id);
     }
 
     @GetMapping("/{id}/today-dishes/")
-    public List<Dish> getToday(@PathVariable int id) {
+    public List<MenuItem> getToday(@PathVariable int id) {
         log.info("get dishes for restaurant {}", id);
         return repository.findAllByRestaurantIdAndCreateDateAfter(id, LocalDateTime.now().toLocalDate().atStartOfDay());
     }
