@@ -13,6 +13,8 @@ import java.time.LocalTime;
 @UtilityClass
 public class ValidationUtil {
 
+    public static final LocalTime REVOTE_TIME_LIMIT = LocalTime.of(11, 0);
+
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
             throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be new (id=null)");
@@ -35,8 +37,8 @@ public class ValidationUtil {
     }
 
     public static void checkRevote(Vote vote) {
-        if (vote.getTime().isAfter(LocalTime.of(11, 0))) {
-            throw new IllegalRequestDataException("Change vote after 11:00 is not allowed");
+        if (vote.getTime().isAfter(REVOTE_TIME_LIMIT)) {
+            throw new IllegalRequestDataException("Change vote after" + REVOTE_TIME_LIMIT + "is not allowed");
         }
     }
 
