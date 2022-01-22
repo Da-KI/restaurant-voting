@@ -7,6 +7,9 @@ import com.restaurantvoting.to.MenuItemTo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +35,12 @@ public class AdminMenuItemController {
     private final MenuItemRepository repository;
     private final RestaurantRepository restaurantRepository;
 
-    @GetMapping("/dishes")
-    public List<MenuItem> getAll() {
-        log.info("get all");
-        return repository.findAll();
+    @GetMapping("/menu_items")
+    public Page<MenuItem> getAll(@RequestParam(defaultValue = "0") Integer pageNo,
+                                 @RequestParam(defaultValue = "20") Integer pageSize,
+                                 @RequestParam(defaultValue = "offerDate") String sortBy) {
+        log.info("get all page {}, page size {}, sort {}", pageNo, pageSize, sortBy);
+        return repository.findAll(PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.ASC, sortBy)));
     }
 
     @Transactional
@@ -56,7 +61,7 @@ public class AdminMenuItemController {
     public ResponseEntity<MenuItem> create(@Valid @RequestBody MenuItemTo menuItemTo, @PathVariable int id) {
         log.info("create {}", menuItemTo);
         checkNew(menuItemTo);
-        MenuItem newMenuItem = new MenuItem(menuItemTo.getId(), menuItemTo.getName(), restaurantRepository.getById(id), menuItemTo.getCreateDate(), menuItemTo.getPrice());
+        MenuItem newMenuItem = new MenuItem(menuItemTo.getId(), menuItemTo.getName(), restaurantRepository.getById(id), menuItemTo.getOfferDate(), menuItemTo.getPrice());
         repository.save(newMenuItem);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

@@ -34,13 +34,13 @@ public class VoteController {
     @Transactional
     @PostMapping(value = "/vote/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@AuthenticationPrincipal AuthUser authUser, @Param("restaurant_id") int restaurant_id) {
-        log.info("user {} voted restaurant {}", authUser.id(), restaurant_id);
+    public void create(@AuthenticationPrincipal AuthUser authUser, @Param("restaurantId") int restaurantId) {
+        log.info("user {} voted restaurant {}", authUser.id(), restaurantId);
         Optional<Vote> optionalVote = repository.findByDateAndUserId(
                 LocalDateTime.now().toLocalDate(), authUser.id());
         Vote vote = new Vote(LocalDateTime.now().toLocalDate(),
                 LocalDateTime.now().toLocalTime(),
-                restaurantRepository.getById(restaurant_id),
+                restaurantRepository.getById(restaurantId),
                 authUser.getUser());
         if (optionalVote.isPresent()) {
             update(authUser, vote, optionalVote.get().getId());

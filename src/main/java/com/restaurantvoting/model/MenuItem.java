@@ -2,14 +2,13 @@ package com.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "menu_item")
+@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "offer_date", "name"}, name = "menu_item_unique_restaurant_date_name_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,18 +21,18 @@ public class MenuItem extends NamedEntity {
     @JsonBackReference
     private Restaurant restaurant;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "offer_date", nullable = false)
     @NotNull
-    private LocalDateTime createDate;
+    private LocalDate offerDate;
 
     @Column(name = "price", nullable = false)
     @NotNull
     private int price;
 
-    public MenuItem(Integer id, String name, Restaurant restaurant, LocalDateTime createDate, int price) {
+    public MenuItem(Integer id, String name, Restaurant restaurant, LocalDate offerDate, int price) {
         super(id, name);
         this.restaurant = restaurant;
-        this.createDate = createDate;
+        this.offerDate = offerDate;
         this.price = price;
     }
 }

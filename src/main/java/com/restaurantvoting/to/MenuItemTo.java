@@ -5,7 +5,7 @@ import lombok.Value;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
@@ -14,11 +14,11 @@ public class MenuItemTo extends NamedTo {
     int price;
 
     @NotNull
-    LocalDateTime createDate;
+    LocalDate offerDate;
 
-    public MenuItemTo(Integer id, String name, int price, LocalDateTime createDate) {
+    public MenuItemTo(Integer id, String name, int price, LocalDate offerDate) {
         super(id, name);
         this.price = price;
-        this.createDate = createDate;
+        this.offerDate = offerDate;
     }
 }

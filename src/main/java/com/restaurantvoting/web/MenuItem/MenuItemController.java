@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -26,16 +26,16 @@ public class MenuItemController {
     private final MenuItemRepository repository;
 
     @Transactional
-    @GetMapping("/{id}/dishes")
+    @GetMapping("/{id}/menu_items")
     public List<MenuItem> getAll(@PathVariable int id) {
-        log.info("get dishes for restaurant {}", id);
+        log.info("get menuItems for restaurant {}", id);
         return repository.findAllByRestaurantId(id);
     }
 
-    @GetMapping("/{id}/today-dishes/")
+    @GetMapping("/{id}/today-menu_items/")
     public List<MenuItem> getToday(@PathVariable int id) {
-        log.info("get dishes for restaurant {}", id);
-        return repository.findAllByRestaurantIdAndCreateDateAfter(id, LocalDateTime.now().toLocalDate().atStartOfDay());
+        log.info("get menuItems for restaurant {}", id);
+        return repository.findAllByRestaurantIdAndOfferDate(id, LocalDate.now());
     }
 
 }
