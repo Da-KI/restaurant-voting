@@ -2,6 +2,7 @@ package com.restaurantvoting.util.validation;
 
 import com.restaurantvoting.HasId;
 import com.restaurantvoting.error.IllegalRequestDataException;
+import com.restaurantvoting.model.Restaurant;
 import com.restaurantvoting.model.Vote;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
@@ -9,6 +10,7 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 @UtilityClass
 public class ValidationUtil {
@@ -38,13 +40,25 @@ public class ValidationUtil {
 
     public static void checkVoteTime(LocalTime voteTime) {
         if (voteTime.isAfter(REVOTE_TIME_LIMIT)) {
-            throw new IllegalRequestDataException("Change vote after" + REVOTE_TIME_LIMIT + "is not allowed");
+            throw new IllegalRequestDataException("Change vote after " + REVOTE_TIME_LIMIT + " is not allowed");
         }
     }
 
     public static void checkVoteDate(LocalDate voteDate) {
         if (!voteDate.isEqual(LocalDate.now())) {
             throw new IllegalRequestDataException("Change archive vote is not allowed");
+        }
+    }
+
+    public static void checkFirstVote(int userId, Optional<Vote> optionalVote) {
+        if (optionalVote.isPresent()) {
+            throw new IllegalRequestDataException("User " + userId + " already voted today");
+        }
+    }
+
+    public static void checkRestaurantExist(int restaurantId, Optional<Restaurant> optionalRestaurant) {
+        if (optionalRestaurant.isEmpty()) {
+            throw new IllegalRequestDataException("Restaurant " + restaurantId + " does not exist");
         }
     }
 

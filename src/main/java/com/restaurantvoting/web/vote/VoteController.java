@@ -1,6 +1,5 @@
 package com.restaurantvoting.web.vote;
 
-import com.restaurantvoting.error.IllegalRequestDataException;
 import com.restaurantvoting.model.Restaurant;
 import com.restaurantvoting.model.Vote;
 import com.restaurantvoting.repository.RestaurantRepository;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -59,20 +57,14 @@ public class VoteController {
     public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser, @Param("restaurantId") int restaurantId) {
         log.info("user {} voted restaurant {}", authUser.id(), restaurantId);
         Optional<Vote> optionalVote = repository.findByUserIdAndDate(LocalDate.now(), authUser.id());
-        Vote vote;
-        if (optionalVote.isPresent()) {
-            throw new IllegalRequestDataException("User " + authUser.id() + " already voted today");
-        } else {
-            Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
-            if (optionalRestaurant.isEmpty())  {
-                throw new IllegalRequestDataException("Restaurant " + restaurantId + " does not exist");
-            }
-            vote = new Vote(LocalDate.now(),
-                    LocalTime.now(),
-                    optionalRestaurant.get(),
-                    authUser.getUser());
-            repository.save(vote);
-        }
+        checkFirstVote(authUser.id(), optionalVote);
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+        checkRestaurantExist(restaurantId, optionalRestaurant);
+        Vote vote = new Vote(LocalDate.now(),
+                LocalTime.now(),
+                optionalRestaurant.get(),
+                authUser.getUser());
+        repository.save(vote);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(vote.getId()).toUri();
