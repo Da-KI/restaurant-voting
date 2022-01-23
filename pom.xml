@@ -76,7 +76,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
 <!--            https://stackoverflow.com/questions/66801256/java-lang-illegalaccesserror-class-lombok-javac-apt-lombokprocessor-cannot-acce-->
-            <version>1.18.22</version>
+<!--            <version>1.18.22</version>-->
             <optional>true</optional>
         </dependency>
         <dependency>
