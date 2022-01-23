@@ -26,7 +26,6 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 @Transactional
 @Tag(name = "Admin Restaurant Controller")
 public class AdminRestaurantController {
-
     static final String REST_URL = "/api/admin/restaurants/";
 
     private final RestaurantRepository repository;
@@ -68,5 +67,4 @@ public class AdminRestaurantController {
         assureIdConsistent(restaurant, id);
         repository.save(restaurant);
     }
-
 }

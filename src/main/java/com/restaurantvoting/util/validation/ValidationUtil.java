@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @UtilityClass
 public class ValidationUtil {
-
     public static final LocalTime REVOTE_TIME_LIMIT = LocalTime.of(11, 0);
 
     public static void checkNew(HasId bean) {

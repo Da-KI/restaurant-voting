@@ -29,7 +29,6 @@ import static com.restaurantvoting.util.UserUtil.PASSWORD_ENCODER;
 @Slf4j
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final UserRepository userRepository;
 
     @Autowired

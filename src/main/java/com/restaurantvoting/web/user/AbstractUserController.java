@@ -38,5 +38,4 @@ public abstract class AbstractUserController {
     protected User prepareAndSave(User user) {
         return repository.save(UserUtil.prepareToSave(user));
     }
-
 }

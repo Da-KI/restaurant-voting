@@ -30,12 +30,6 @@ public class MenuItemController {
         return repository.findAllByOfferDateOrderByRestaurantId(LocalDate.now());
     }
 
-//    @GetMapping("/menu_items-with-restaurant/")
-//    public List<MenuItem> getAllTodayWithRestaurant() {
-//        log.info("get today menuItems with Restaurant");
-//        return repository.findAllByOfferDateWithRestaurant(LocalDate.now());
-//    }
-
     @GetMapping("/{id}/today-menu_items/")
     public List<MenuItem> getToday(@PathVariable int id) {
         log.info("get today menuItems for restaurant {}", id);

@@ -62,5 +62,4 @@ public class ProfileController extends AbstractUserController {
         User user = authUser.getUser();
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
-
 }
