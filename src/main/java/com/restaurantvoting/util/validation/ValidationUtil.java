@@ -36,14 +36,14 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkRevote(Vote vote) {
-        if (vote.getTime().isAfter(REVOTE_TIME_LIMIT)) {
+    public static void checkVoteTime(LocalTime voteTime) {
+        if (voteTime.isAfter(REVOTE_TIME_LIMIT)) {
             throw new IllegalRequestDataException("Change vote after" + REVOTE_TIME_LIMIT + "is not allowed");
         }
     }
 
-    public static void checkToday(Vote vote) {
-        if (vote.getDate().isBefore(LocalDate.now())) {
+    public static void checkVoteDate(LocalDate voteDate) {
+        if (!voteDate.isEqual(LocalDate.now())) {
             throw new IllegalRequestDataException("Change archive vote is not allowed");
         }
     }
