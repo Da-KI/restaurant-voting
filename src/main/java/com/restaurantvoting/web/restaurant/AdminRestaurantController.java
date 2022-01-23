@@ -23,7 +23,6 @@ import static com.restaurantvoting.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-@Transactional
 @Tag(name = "Admin Restaurant Controller")
 public class AdminRestaurantController {
     static final String REST_URL = "/api/admin/restaurants/";

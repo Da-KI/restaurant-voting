@@ -24,7 +24,7 @@ public class MenuItemController {
 
     private final MenuItemRepository repository;
 
-    @GetMapping("/menu_items/")
+    @GetMapping("/today-menu_items/")
     public List<MenuItem> getAllToday() {
         log.info("get today menuItems");
         return repository.findAllByOfferDateOrderByRestaurantId(LocalDate.now());
