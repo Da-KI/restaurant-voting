@@ -47,15 +47,15 @@ public class AdminMenuItemController {
 
     @GetMapping("/{restaurantId}/menu_items")
     public List<MenuItem> getByRestaurantId(@PathVariable int restaurantId) {
-        log.info("get dishes for restaurant {}", restaurantId);
+        log.info("get MenuItems for restaurant {}", restaurantId);
         return repository.findAllByRestaurantId(restaurantId);
     }
 
-    @GetMapping("/{restaurantId}/menu_items_by_date")
+    @GetMapping("/{restaurantId}/menu_items-by-date")
     public List<MenuItem> getByRestaurantIdAndDate(@PathVariable int restaurantId,
                                                    @RequestParam() @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate offerDate) {
         log.info("get menuItems for restaurant {} with date {}", restaurantId, offerDate);
-        return repository.findAllByRestaurantIdAndOfferDateOrderByName(restaurantId, offerDate);
+        return repository.findAllByRestaurantIdAndOfferDate(restaurantId, offerDate);
     }
 
     @GetMapping("/{restaurantId}/menu_items/{id}")

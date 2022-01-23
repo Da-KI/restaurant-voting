@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +24,21 @@ public class MenuItemController {
 
     private final MenuItemRepository repository;
 
-    @Transactional
-    @GetMapping("/{id}/menu_items")
-    public List<MenuItem> getAll(@PathVariable int id) {
-        log.info("get menuItems for restaurant {}", id);
-        return repository.findAllByRestaurantId(id);
+    @GetMapping("/menu_items/")
+    public List<MenuItem> getAllToday() {
+        log.info("get today menuItems");
+        return repository.findAllByOfferDateOrderByRestaurantId(LocalDate.now());
     }
+
+//    @GetMapping("/menu_items-with-restaurant/")
+//    public List<MenuItem> getAllTodayWithRestaurant() {
+//        log.info("get today menuItems with Restaurant");
+//        return repository.findAllByOfferDateWithRestaurant(LocalDate.now());
+//    }
 
     @GetMapping("/{id}/today-menu_items/")
     public List<MenuItem> getToday(@PathVariable int id) {
-        log.info("get menuItems for restaurant {}", id);
-        return repository.findAllByRestaurantIdAndOfferDateOrderByName(id, LocalDate.now());
+        log.info("get today menuItems for restaurant {}", id);
+        return repository.findAllByRestaurantIdAndOfferDate(id, LocalDate.now());
     }
-
 }

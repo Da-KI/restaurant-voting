@@ -8,11 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "offer_date", "name"}, name = "menu_item_unique_restaurant_date_name_idx")})
+@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(columnNames = {"offer_date", "restaurant_id", "name"}, name = "menu_item_unique_date_restaurant_name_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString(callSuper = true)
 public class MenuItem extends NamedEntity {
 
