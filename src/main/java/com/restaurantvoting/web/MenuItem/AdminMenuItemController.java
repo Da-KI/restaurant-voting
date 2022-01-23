@@ -78,11 +78,10 @@ public class AdminMenuItemController {
         log.info("create {}", menuItemTo);
         checkNew(menuItemTo);
         MenuItem newMenuItem = new MenuItem(menuItemTo.getId(), menuItemTo.getName(), restaurantRepository.getById(restaurantId), menuItemTo.getOfferDate(), menuItemTo.getPrice());
-        repository.save(newMenuItem);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(newMenuItem.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(newMenuItem);
+        return ResponseEntity.created(uriOfNewResource).body(repository.save(newMenuItem));
     }
 
     @PutMapping(value = "/{restaurantId}/menu_items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

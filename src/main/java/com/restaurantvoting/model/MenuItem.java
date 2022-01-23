@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = {"restaurant"})
 public class MenuItem extends NamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

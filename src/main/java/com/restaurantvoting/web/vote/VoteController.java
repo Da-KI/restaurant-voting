@@ -64,11 +64,10 @@ public class VoteController {
                 LocalTime.now(),
                 optionalRestaurant.get(),
                 authUser.getUser());
-        repository.save(vote);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(vote.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(vote);
+        return ResponseEntity.created(uriOfNewResource).body(repository.save(vote));
     }
 
     @PutMapping(value = "/{id}")
